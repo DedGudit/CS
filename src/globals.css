@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .border-border { border-color: hsl(var(--border)); }
+  
+  .border-input  { border-color: hsl(var(--input)); }
+}
+
+/* ==== переменные (светлая тема) ==== */
+:root {
+  --font-size: 16px;
+
+  --background: #faf8f3;
+  --foreground: #3sd3834;
+
+  --card: #ffffff;
+  --card-foreground: #3d3834;
+
+  --popover: #ffffff;
+  --popover-foreground: #3d3834;
+
+  --primary: #f27c1c;
+  --primary-foreground: #ffffff;
+
+  --secondary: #2d426c;
+  --secondary-foreground: #ffffff;
+
+  --muted: #f5f1e8;
+  --muted-foreground: #6b6560;
+
+  --accent: #5a7bb8;
+  --accent-foreground: #ffffff;
+
+  --success: #8B6F47;
+  --success-foreground: #ffffff;
+
+  --destructive: #d4183d;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(45, 66, 108, 0.15);
+
+  --input: transparent;
+  --input-background: #ffffff;
+  --switch-background: #e8e3d8;
+
+  --font-weight-medium: 600;
+  --font-weight-normal: 500;
+
+  --ring: #f27c1c;
+
+  --chart-1: #f27c1c;
+  --chart-2: #2d426c;
+  --chart-3: #5a7bb8;
+  --chart-4: #ff9d52;
+  --chart-5: #7a92c4;
+
+  --radius: 0.75rem;
+
+  /* Градиенты (их используем отдельно, см. utilities ниже) */
+  --sidebar: linear-gradient(180deg, #c96a1a 0%, #8B6447 100%);
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #f27c1c;
+  --sidebar-accent: rgba(255, 255, 255, 0.15);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #ffffff;
+
+  --header: linear-gradient(90deg, #2d426c 0%, #1f2e4d 100%);
+  --header-foreground: #ffffff;
+
+  --login-background: linear-gradient(135deg, #6A4524 0%, #8B6447 50%, #6A4524 100%);
+}
+
+/* ==== Тёмная тема (включится, если на html/body добавить класс "dark") ==== */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+
+  --font-weight-medium: 600;
+  --font-weight-normal: 500;
+
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+}
+
+/* ==== Сообщаем Tailwind значения токенов (цвета/радиусы) ==== */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ==== Базовые стили (простые) ==== */
+@layer base {
+  * { @apply border-border outline-ring/50; }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  }
+
+  /* Простая типографика.
+     Если потом задашь классы text-* на элементах — они их ПЕРЕОПРЕДЕЛЯТ. */
+  h1 { @apply text-2xl font-medium leading-relaxed; }
+  h2 { @apply text-xl  font-medium leading-relaxed; }
+  h3 { @apply text-lg  font-medium leading-relaxed; }
+  h4 { @apply text-base font-medium leading-relaxed; }
+  p  { @apply text-base font-normal leading-relaxed; }
+  label, button { @apply text-base font-medium leading-normal; }
+  input { @apply text-base font-normal leading-normal; }
+}
+
+/* ==== Утилиты для ГРАДИЕНТОВ ==== */
+@layer utilities {
+  .bg-sidebar { background-image: var(--sidebar); }
+  .bg-header { background-image: var(--header); }
+  .bg-login-background { background-image: var(--login-background); }
+}
+
+/* Размер шрифта html */
+html { font-size: var(--font-size); }
+
+
+/* ======= ДОПОЛНИТЕЛЬНЫЕ КОМПОНЕНТЫ UI ======= */
+
+/* Контейнер и сетки */
+.container {
+  width: min(1100px, 92vw);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+.stack > * + * { margin-top: 1rem; }
+.cluster { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.grid { display: grid; gap: 1.5rem; }
+@media (min-width: 768px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Карточки */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  padding: 1.5rem;
+}
+
+/* Кнопки */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.5rem;
+  height: 44px; padding: 0 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600; cursor: pointer;
+  transition: all .2s ease;
+}
+.btn--primary   { background: var(--primary);   color: var(--primary-foreground); }
+.btn--secondary { background: var(--secondary); color: var(--secondary-foreground); }
+.btn--outline   { background: transparent; color: var(--secondary); border: 1px solid var(--secondary); }
+.btn:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+/* Поля ввода */
+.input, .select, .textarea {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--input-background);
+  padding: .75rem .9rem;
+  color: var(--foreground);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.input:focus, .select:focus, .textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(242,124,28,.2);
+  outline: none;
+}
+.textarea { min-height: 120px; resize: vertical; }
+
+/* Формы */
+.form { display: grid; gap: 1.25rem; }
+.form__row { display: grid; gap: 1rem; }
+@media (min-width:768px) {
+  .form__row--2 { grid-template-columns: 1fr 1fr; }
+}
+.form__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* Навигация / футер */
+.nav {
+  background: var(--header);
+  color: var(--header-foreground);
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+.nav__inner {
+  height: 64px; display: flex; align-items: center;
+  justify-content: space-between; gap: 1.5rem;
+}
+.brand { display: flex; align-items: center; gap: .75rem; font-weight: 800; }
+.footer { padding: 2rem 0; color: var(--muted-foreground); }
+
+/* Центровка и отступы */
+.center { display: grid; place-items: center; }
+.mt-4 { margin-top: 1rem; } .mt-8 { margin-top: 2rem; }
+.mb-4 { margin-bottom: 1rem; }
+.w-100 { width: 100%; }
+.max-600 { max-width: 600px; margin-inline: auto; }
