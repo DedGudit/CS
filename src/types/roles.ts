@@ -1,87 +1,21 @@
-export type UserRole = 'waiter' | 'admin' | 'director';
+import type { User, UserRole } from './app';
+export type { User, UserRole };
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  role: UserRole;
-  avatar?: string;
-}
+type PermissionKey = 'orders'|'tables'|'reservations'|'menuView'|'menuManage'|'staff'|'shifts'|'analytics'|'reports'|'about';
+export type SectionKey = 'orders'|'tables'|'reservations'|'menu'|'staff'|'shifts'|'analytics'|'reports'|'about';
 
-type PermissionKey =
-  | 'canViewDashboard'
-  | 'canManageOrders' | 'canViewOrders'
-  | 'canManageTables'
-  | 'canViewMenu' | 'canManageMenu'
-  | 'canManageStaff'
-  | 'canViewAnalytics' | 'canViewRevenue'
-  | 'canManageShifts'
-  | 'canManageSettings';
-
-export type RolePermissions = Record<PermissionKey, boolean>;
-
-const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
-  waiter: {
-    canViewDashboard: true,
-    canManageOrders: true, canViewOrders: true,
-    canManageTables: true,
-    canViewMenu: true, canManageMenu: false,
-    canManageStaff: false,
-    canViewAnalytics: false, canViewRevenue: false,
-    canManageShifts: false,
-    canManageSettings: false,
-  },
-  admin: {
-    canViewDashboard: true,
-    canManageOrders: true, canViewOrders: true,
-    canManageTables: true,
-    canViewMenu: true, canManageMenu: true,
-    canManageStaff: true,
-    canViewAnalytics: true, canViewRevenue: true,
-    canManageShifts: true,
-    canManageSettings: true,
-  },
-  director: {
-    canViewDashboard: true,
-    canManageOrders: false, canViewOrders: true,
-    canManageTables: false,
-    canViewMenu: true, canManageMenu: false,
-    canManageStaff: true,
-    canViewAnalytics: true, canViewRevenue: true,
-    canManageShifts: true,
-    canManageSettings: true,
-  }
+const map: Record<UserRole, Record<PermissionKey, boolean>> = {
+  waiter: {orders:true,tables:true,reservations:true,menuView:true,menuManage:false,staff:false,shifts:false,analytics:false,reports:false,about:true},
+  admin: {orders:true,tables:true,reservations:false,menuView:true,menuManage:true,staff:true,shifts:true,analytics:false,reports:false,about:true},
+  director: {orders:true,tables:true,reservations:true,menuView:true,menuManage:true,staff:true,shifts:true,analytics:true,reports:true,about:true},
 };
 
-export const roleDescriptions: Record<UserRole, string> = {
-  waiter:   'Официант — видит и управляет заказами и столами',
-  admin:    'Администратор — полный доступ к управлению и настройкам',
-  director: 'Директор — аналитика и финансы, без операционной рутины',
+export const roleNames = { waiter:'Официант', admin:'Администратор', director:'Директор' };
+export const roleDescriptions = { waiter:'Работа с заказами и залом', admin:'Операционное управление', director:'Управление и аналитика' };
+
+export const hasPermission = (role:UserRole,p:PermissionKey) => map[role][p];
+export const getAvailableSections = (role:UserRole):SectionKey[] => {
+  const p = map[role];
+  return (['orders','tables','reservations','menu','staff','shifts','analytics','reports','about'] as SectionKey[])
+    .filter((s)=> s==='menu' ? p.menuView : s==='about' ? p.about : p[s as PermissionKey]);
 };
-
-export const roleNames: Record<UserRole, string> = {
-  waiter: 'Официант',
-  admin: 'Администратор',
-  director: 'Директор',
-};
-
-export function hasPermission(role: UserRole, permission: PermissionKey) {
-  return !!ROLE_PERMISSIONS[role]?.[permission];
-}
-
-export type SectionKey = 'dashboard' | 'orders' | 'tables' | 'menu' | 'staff' | 'analytics' | 'shifts' | 'settings';
-
-export function getAvailableSections(role: UserRole): SectionKey[] {
-  const p = ROLE_PERMISSIONS[role];
-  const sections: SectionKey[] = [];
-  if (p.canViewDashboard) sections.push('dashboard');
-  if (p.canManageOrders || p.canViewOrders) sections.push('orders');
-  if (p.canManageTables) sections.push('tables');
-  if (p.canViewMenu) sections.push('menu');
-  if (p.canManageStaff) sections.push('staff');
-  if (p.canViewAnalytics || p.canViewRevenue) sections.push('analytics');
-  if (p.canManageShifts) sections.push('shifts');
-  if (p.canManageSettings) sections.push('settings');
-  return sections;
-}
