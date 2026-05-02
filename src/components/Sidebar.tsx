@@ -1,13 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import {
-  LayoutDashboard,
-  UtensilsCrossed,
-  Users,
-  Calendar,
-  BarChart3,
-  Package,
-  Clock,
-} from 'lucide-react';
+import { UtensilsCrossed, Users, Calendar, BarChart3, Package, Clock, FileText, Info, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { UserRole, SectionKey, getAvailableSections } from '../types/roles';
 
@@ -21,13 +13,15 @@ interface SidebarProps {
 
 export function Sidebar({ activeSection, onSectionChange, userRole }: SidebarProps) {
   const allMenuItems: { id: SectionKey; label: string; icon: IconType }[] = [
-    { id: 'dashboard', label: 'Dashboard',  icon: LayoutDashboard },
     { id: 'orders',    label: 'Заказы',     icon: UtensilsCrossed },
     { id: 'tables',    label: 'Столики',    icon: Calendar },
     { id: 'menu',      label: 'Меню',       icon: Package },
     { id: 'staff',     label: 'Персонал',   icon: Users },
+    { id: 'reservations', label: 'Брони', icon: BookOpen },
     { id: 'analytics', label: 'Аналитика',  icon: BarChart3 },
+    { id: 'reports', label: 'Отчёты', icon: FileText },
     { id: 'shifts',    label: 'Смены',      icon: Clock },
+    { id: 'about', label: 'О системе', icon: Info },
   ];
 
   const availableSections = getAvailableSections(userRole); // SectionKey[]
